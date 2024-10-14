@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+# Define the installation path based on the OS
+case "$(uname)" in
+  Linux)
+    INSTALL_PATH="/usr/local/bin/hkup"
+    ;;
+  Darwin)
+    INSTALL_PATH="/usr/local/bin/hkup"
+    ;;
+  CYGWIN*|MINGW32*|MSYS*|MINGW*)
+    INSTALL_PATH="$USERPROFILE/bin/hkup.exe"  # User-specific directory
+    ;;
+  *)
+    echo "Unsupported OS: $(uname)"
+    exit 1
+    ;;
+esac
+
+# Check if the file exists
+if [ -f "$INSTALL_PATH" ]; then
+  echo "Uninstalling hkup from $INSTALL_PATH..."
+  rm "$INSTALL_PATH"
+  echo "hkup uninstalled successfully!"
+else
+  echo "hkup is not installed at $INSTALL_PATH."
+  exit 1
+fi
