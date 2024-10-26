@@ -10,19 +10,24 @@ import (
 )
 
 var (
-	// local repo folder name to hold git hooks via relative path
-	FullPath = filepath.Join(".", ".hkup") // NOTE: treat as constant
-
-	// flags
+	// FullPath defines the local repository folder name to hold Git hooks via a relative path.
+	// It is treated as a constant and points to the ".hkup" directory within the current working directory.
+	FullPath = filepath.Join(".", ".hkup")
 )
 
+// Init initializes the hkup folder for storing Git hooks in the current repository.
+// It checks if the current working directory is a Git repository, creates the hkup folder if it doesn't exist,
+// and sets the Git configuration for `core.hooksPath` to point to the hkup folder.
+// Returns an error if the current directory is not a Git repository, if the folder creation fails,
+// or if there is an issue setting the Git hooks path.
+//
+// Returns:
+// - error: Returns an error if any of the steps fail; otherwise, it returns nil.
 func Init(cmd *cobra.Command, args []string) error {
-	// check if cwd is git repo
 	if err := exec.Command("git", "-C", ".", "rev-parse", "--is-inside-work-tree").Run(); err != nil {
 		return fmt.Errorf("failed to check if cwd is git repo: %w", err)
 	}
 
-	// check if there is a hkup folder and create if necessary
 	if !util.DoesDirectoryExist(FullPath) {
 		if err := util.CreateFolder(FullPath); err != nil {
 			return err
@@ -33,7 +38,6 @@ func Init(cmd *cobra.Command, args []string) error {
 	if out, _ := exec.Command("git", "config", "--local", "core.hooksPath").Output(); len(out) != 0 {
 		return fmt.Errorf("hooksPath already set to %s", out)
 	} else {
-		// update the local git core.hookPath
 		if err := exec.Command("git", "config", "--local", "core.hooksPath", FullPath).Run(); err != nil {
 			return fmt.Errorf("failed to set hooksPath: %w", err)
 		}

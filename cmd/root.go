@@ -4,7 +4,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// https://github.com/spf13/cobra/blob/main/site/content/user_guide.md
 var (
 	rootCmd = &cobra.Command{
 		Use:     "hkup",
@@ -17,6 +16,8 @@ var (
 
 func init() {}
 
+// Execute serves as a wrapper for the Cobra API's Execute function,
+// allowing it to be called from the main package.
 func Execute() {
 	rootCmd.Execute()
 }

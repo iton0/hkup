@@ -6,6 +6,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// List displays a list of available Git hooks or supported languages based on the provided argument.
+// It takes a single argument, which determines whether to list hooks or languages.
+//
+// Returns:
+// - error: Returns an error if the argument is invalid; otherwise, it returns nil.
 func List(cmd *cobra.Command, args []string) error {
 	arg := args[0]
 	var output []string

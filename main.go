@@ -1,3 +1,4 @@
+// Package main initializes Cobra
 package main
 
 import (

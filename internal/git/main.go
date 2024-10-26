@@ -1,18 +1,22 @@
+/*
+Package git provides utilities related to Git hooks and supported scripting languages for those hooks.
+
+This package includes functionality for retrieving information about Git hooks and determining the supported languages for writing hooks.
+
+This package is designed to facilitate the use and understanding of Git hooks in various programming environments.
+*/
 package git
 
 import (
 	"fmt"
 )
 
+// HookDocSite is a constant of the base URL for the Git hooks documentation.
 const HookDocSite = "https://git-scm.com/docs/githooks#"
 
 var (
+	// hooks is a map of Git hook names to their corresponding sections in the Git hooks documentation. This map is kept up to date as of 10/24/2024.
 	// source: https://git-scm.com/docs/githooks
-	// INFO: all supported hooks as of 10/24/2024
-	// NOTE: update above date when changing hooks var
-	//
-	// key = git hook name
-	// value = url section of online git hooks docs
 	hooks = map[string]string{
 		"applypatch-msg":        "_applypatch_msg",
 		"pre-applypatch":        "_pre_applypatch",
@@ -44,9 +48,7 @@ var (
 		"post-index-change":     "_post_index_change",
 	}
 
-	// Languages that can be used for git hooks (excluding default bash)
-	// NOTE: any language can technically be used but
-	// this is those that do not need to be compiled.
+	// supportedLangs is a map indicating which programming languages are supported for Git hooks, excluding the default bash.
 	supportedLangs = map[string]bool{
 		"python": true,
 		"ruby":   true,
@@ -56,8 +58,7 @@ var (
 	}
 )
 
-// GetHook retrieves the value of a specified git hook by its key.
-// Returns the hook value and an error if the hook is not found.
+// GetHook retrieves the URL section of the documentation for a specified Git hook. Returns an error if the hook is not found.
 func GetHook(key string) (string, error) {
 	value, exists := hooks[key]
 	if !exists {
@@ -66,13 +67,12 @@ func GetHook(key string) (string, error) {
 	return value, nil
 }
 
-// Hooks returns the map of all defined git hooks.
+// Hooks returns the complete map of all defined Git hooks.
 func Hooks() map[string]string {
 	return hooks
 }
 
-// GetLang checks if a specified language is supported for git hooks.
-// Returns a boolean indicating support and an error if the language is not found.
+// GetLang reports if a specified language is supported for Git hooks. Returns an error if the language is not recognized.
 func GetLang(key string) (bool, error) {
 	value, exists := supportedLangs[key]
 	if !exists {
@@ -81,7 +81,7 @@ func GetLang(key string) (bool, error) {
 	return value, nil
 }
 
-// SupportedLangs returns the map of supported git hook languages.
+// SupportedLangs returns the map of supported programming languages for Git hooks.
 func SupportedLangs() map[string]bool {
 	return supportedLangs
 }

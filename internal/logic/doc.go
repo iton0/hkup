@@ -9,6 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Doc opens the documentation for a specified Git hook in the default web browser.
+// The command takes a single argument, which is the key (name) of the hook.
+// It constructs the URL for the documentation based on the hook name and attempts to open it using the appropriate command for the operating system.
+//
+// Returns:
+// - error: Returns an error if the hook key is invalid, if the platform is unsupported, or if there is an issue starting the command; otherwise, it returns nil.
 func Doc(cmd *cobra.Command, args []string) error {
 	key := args[0]
 	var termCmd *exec.Cmd
